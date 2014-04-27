@@ -15,6 +15,8 @@ public class ScrNoFlick extends Applet implements Runnable {
     private Graphics m_MemImage_Graphics;
     Dimension m_MemImageDim = null;
 
+    int updates, paints, repaints;
+
     @Override
     public String getAppletInfo() {
         return "Name: ScrNoFlick\r\n"
@@ -41,6 +43,10 @@ public class ScrNoFlick extends Applet implements Runnable {
             m_Text = param;
         }
 
+        updates = 0;
+        paints = 0;
+        repaints = 0;
+
         FontMetrics fm = getFontMetrics(getFont());
         m_StringSize = fm.stringWidth(m_Text);
         m_CurrentXPosition = size().width;
@@ -52,6 +58,8 @@ public class ScrNoFlick extends Applet implements Runnable {
         Dimension d = size();
         int nWidth = d.width;
         int nHeight = d.height;
+
+        updates++;
 
         if ((m_MemImageDim == null)
                 || (m_MemImageDim.width != nWidth)
@@ -82,6 +90,9 @@ public class ScrNoFlick extends Applet implements Runnable {
 
     @Override
     public void paint(Graphics g) {
+        
+        paints++;
+        
         if (m_MemImage != null) {
             g.drawImage(m_MemImage, 0, 0, null);
         }
@@ -108,6 +119,7 @@ public class ScrNoFlick extends Applet implements Runnable {
         while (true) {
             try {
                 repaint();
+                repaints++;
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 stop();
