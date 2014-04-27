@@ -3,8 +3,7 @@ package org.me.hello;
 import java.awt.Color;
 import java.awt.Graphics;
 
-class Oval {
-
+public class Oval {
     
     int x, y, r; // Position and radius of the circle
     int dx, dy; // Trajectory of circle    
@@ -22,7 +21,7 @@ class Oval {
         dest = 1;
     }
 
-    void draw(Graphics g) {
+    public void draw(Graphics g) {
 
         g.setColor(color);
         g.fillOval(x - r, y - r, r * 2, r * 2);

@@ -1,62 +1,55 @@
 package org.me.hello;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
-class Rect {
+public class Rect {
 
-    int x, y, width, height;
+    int xLeftUpCorner, yLeftUpCorner, width, height, delta;
     Color color;
-    
-    /**
-     * Creates rectangle.
-     *
-     * @param x x-coord of left-up corner
-     * @param y y-coord of left-up corner
-     * @param width width of rect
-     * @param height height of rect
-     * @param color color of rect
-     */
-    public Rect(int x, int y, int width, int height, Color color) {
 
-        this.x = x;
-        this.y = y;
+    public Rect(int xLeftUpCorner, int yLeftUpCorner, int width, int height, Color color, int delta) {
+
+        this.xLeftUpCorner = xLeftUpCorner;
+        this.yLeftUpCorner = yLeftUpCorner;
         this.width = width;
         this.height = height;
         this.color = color;
+        this.delta = delta;
     }
 
-    void draw(Graphics g) {
+    public void draw(Graphics g) {
 
         g.setColor(color);
-        g.fillRect(x, y, width, height);
+        g.fillRect(xLeftUpCorner, yLeftUpCorner, width, height);
     }
 
-    void moveDown(int d, int lim) {
+    public void moveDown(Dimension dim) {
 
-        if ((y + height + d) < lim) {
-            y += d;
+        if ((yLeftUpCorner + height + delta) < dim.height) {
+            yLeftUpCorner += delta;
         }
     }
 
-    void moveUp(int d, int lim) {
+    public void moveUp() {
 
-        if ((y - d) > lim) {
-            y -= d;
+        if ((yLeftUpCorner - delta) > 0) {
+            yLeftUpCorner -= delta;
         }
     }
 
-    void moveRight(int d, int lim) {
+    public void moveRight(Dimension dim) {
 
-        if ((x + width + d) < lim) {
-            x += d;
+        if ((xLeftUpCorner + width + delta) < dim.width) {
+            xLeftUpCorner += delta;
         }
     }
 
-    void moveLeft(int d, int lim) {
+    public void moveLeft() {
 
-        if ((x - d) > lim) {
-            x -= d;
+        if ((xLeftUpCorner - delta) > 0) {
+            xLeftUpCorner -= delta;
         }
     }
 }
