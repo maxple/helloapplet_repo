@@ -7,7 +7,16 @@ class Rect {
 
     int x, y, width, height;
     Color color;
-
+    
+    /**
+     * Creates rectangle.
+     *
+     * @param x x-coord of left-up corner
+     * @param y y-coord of left-up corner
+     * @param width width of rect
+     * @param height height of rect
+     * @param color color of rect
+     */
     public Rect(int x, int y, int width, int height, Color color) {
 
         this.x = x;

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class Tape extends Applet implements Runnable {
 
-    Thread th;   
+    Thread th;
 
     Integer x, y;
 
@@ -22,11 +22,11 @@ public class Tape extends Applet implements Runnable {
     Graphics memImageGraphics;
     Dimension memImageDim;
 
-    Graphics g;
-
     int updates, paints, repaints;
 
     Set<Integer> keysPressed = new HashSet<>();
+
+    Rect rect;
 
     @Override
     public void init() {
@@ -41,27 +41,28 @@ public class Tape extends Applet implements Runnable {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                
+
                 keysPressed.add(e.getKeyCode());
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                
+
                 keysPressed.remove(e.getKeyCode());
             }
         });
 
         setBackground(Color.white);
         setForeground(Color.black);
-        g = getGraphics();
-        th = new Thread(this);
+
         x = 0;
         y = 0;
+
+        rect = new Rect(x, y, 5, 5, Color.red);
+        th = new Thread(this);
     }
 
     @Override
-
     public void start() {
         th.start();
     }
@@ -71,10 +72,10 @@ public class Tape extends Applet implements Runnable {
 
         while (true) {
             try {
-                keyEventHandler();
+                keysEventHandler();
                 repaint();
                 repaints++;
-                Thread.sleep(100);                
+                Thread.sleep(100);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Tape.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -109,7 +110,7 @@ public class Tape extends Applet implements Runnable {
         memImageGraphics.drawString(x.toString(), 50, 50);
 
         memImageGraphics.drawString(y.toString(), 50, 100);
-        
+
         memImageGraphics.drawString(keysPressed.toString(), 50, 150);
 
         paint(g);
@@ -124,11 +125,19 @@ public class Tape extends Applet implements Runnable {
             g.drawImage(memImage, 0, 0, null);
         }
     }
-    
-    void keyEventHandler() {
-        if (keysPressed.contains(KeyEvent.VK_UP)) y++;
-        if (keysPressed.contains(KeyEvent.VK_DOWN)) y--;
-        if (keysPressed.contains(KeyEvent.VK_LEFT)) x--;
-        if (keysPressed.contains(KeyEvent.VK_RIGHT)) x++;
+
+    void keysEventHandler() {
+        if (keysPressed.contains(KeyEvent.VK_UP)) {
+            y++;
+        }
+        if (keysPressed.contains(KeyEvent.VK_DOWN)) {
+            y--;
+        }
+        if (keysPressed.contains(KeyEvent.VK_LEFT)) {
+            x--;
+        }
+        if (keysPressed.contains(KeyEvent.VK_RIGHT)) {
+            x++;
+        }
     }
 }

@@ -3,6 +3,10 @@ package org.me.hello;
 import java.applet.*;
 import java.awt.*;
 
+/**
+ *
+ * @author 1
+ */
 public class ScrNoFlick extends Applet implements Runnable {
 
     private Thread m_ScrNoFlick = null;

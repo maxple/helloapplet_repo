@@ -4,6 +4,10 @@ import java.applet.*;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ *
+ * @author 1
+ */
 public class MyApplet extends Applet implements Runnable {
 
     final int OVALS_QTY = 20;
@@ -80,7 +84,11 @@ public class MyApplet extends Applet implements Runnable {
 
     // This method moves (and bounces) the circle and then requests a redraw.
     // The animator thread calls this method periodically.
-    public void animate() {
+
+    /**
+     *
+     */
+        public void animate() {
 
         for (int i = 0; i < OVALS_QTY; i++) {
 
