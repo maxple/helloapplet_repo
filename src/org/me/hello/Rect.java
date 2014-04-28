@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-public class Rect {
+class Rect {
 
-    int xLeftUpCorner, yLeftUpCorner, width, height, delta;
-    Color color;
+    private int xLeftUpCorner, yLeftUpCorner, width, height, delta;
+    private Color color;
 
     public Rect(int xLeftUpCorner, int yLeftUpCorner, int width, int height, Color color, int delta) {
 
@@ -19,34 +19,46 @@ public class Rect {
         this.delta = delta;
     }
 
-    public void draw(Graphics g) {
+    void setSize(int width, int height) {
+
+        this.width = width;
+        this.height = height;
+    }
+
+    void enlarge(int d) {
+        
+        width += d;
+        height += d;
+    }
+
+    void draw(Graphics g) {
 
         g.setColor(color);
         g.fillRect(xLeftUpCorner, yLeftUpCorner, width, height);
     }
 
-    public void moveDown(Dimension dim) {
+    void moveDown(Dimension dim) {
 
         if ((yLeftUpCorner + height + delta) < dim.height) {
             yLeftUpCorner += delta;
         }
     }
 
-    public void moveUp() {
+    void moveUp() {
 
         if ((yLeftUpCorner - delta) > 0) {
             yLeftUpCorner -= delta;
         }
     }
 
-    public void moveRight(Dimension dim) {
+    void moveRight(Dimension dim) {
 
         if ((xLeftUpCorner + width + delta) < dim.width) {
             xLeftUpCorner += delta;
         }
     }
 
-    public void moveLeft() {
+    void moveLeft() {
 
         if ((xLeftUpCorner - delta) > 0) {
             xLeftUpCorner -= delta;

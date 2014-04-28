@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -35,7 +36,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
     Dimension memImageDim;
 
     Set<Integer> keysPressed = new HashSet<>();
-
+    
     Oval[] oval;
     Rect rect;
 
