@@ -7,46 +7,47 @@ import java.awt.Graphics;
 class Oval2 {
 
     private final Color color;
-    private Double x, y, r, velocity, angle, dx, dy;
-    private Integer xi, yi, ri;
+    private int x, y, r, velocity, angle, dx, dy;
 
-    public Oval2(int xi, int yi, int ri, Color color) {
+    public Oval2(int x, int y, int r, Color color) {
 
-        this.x = (double) xi;
-        this.y = (double) yi;
-        this.r = (double) ri;
-        
-        this.xi = xi;
-        this.yi = yi;
-        this.ri = ri;
-        
+        this.x = x * 10;
+        this.y = y * 10;
+        this.r = r * 10;
         this.color = color;
-        
-        dx = 1.0;
-        dy = 1.0;
-        velocity = 1.0;
-        angle = 0.0;
+
+        dx = 1;
+        dy = 1;
+        velocity = 1;
+        angle = 0;
     }
 
-    void setIntCoords() {
-        xi = x.intValue();
-        yi = y.intValue();
-        ri = r.intValue();
+    int getX() {
+        return x / 10;
+    }
+
+    int getY() {
+        return y / 10;
+    }
+
+    int getR() {
+        return r / 10;
     }
 
     void draw(Graphics g) {
-        
-        setIntCoords();
 
         g.setColor(color);
-        g.fillOval(xi - ri, yi - ri, ri * 2, ri * 2);
-        /*g.drawString("v=" + velocity.toString(), xi, yi);
-        g.drawString("a=" + angle.toString(), xi, yi + 10);
-        g.drawString("dx=" + dx.toString(), xi, yi + 20);
-        g.drawString("dy=" + dy.toString(), xi, yi + 30);*/
+        g.fillOval(getX() - getR(), getY() - getR(), getR() * 2, getR() * 2);
+        /*g.drawString("x=" + Integer.toString(x), getX(), getY());
+        g.drawString("y=" + Integer.toString(y), getX(), getY() + 10);
+        g.drawString("r=" + Integer.toString(r), getX(), getY() + 20);
+        g.drawString("v=" + Integer.toString(velocity), getX(), getY() + 30);
+        g.drawString("a=" + Integer.toString(angle), getX(), getY() + 40);
+        g.drawString("dx=" + Integer.toString(dx), getX(), getY() + 50);
+        g.drawString("dy=" + Integer.toString(dy), getX(), getY() + 60);*/
     }
 
-    void setVelocity(double velocity) {
+    void setVelocity(int velocity) {
 
         this.velocity = velocity;
         setTrajectory();
@@ -56,7 +57,7 @@ class Oval2 {
         return velocity;
     }
 
-    void setAngle(double angle) {
+    void setAngle(int angle) {
 
         this.angle = angle;
         setTrajectory();
@@ -67,18 +68,12 @@ class Oval2 {
     }
 
     void setTrajectory() {
-        dx = velocity * Math.cos(Math.toRadians(angle));
-        dy = velocity * Math.sin(Math.toRadians(-angle));
+        dx = (int) (10 * velocity * Math.cos(Math.toRadians(angle)));
+        dy = (int) (10 * velocity * Math.sin(Math.toRadians(-angle)));
     }
 
     void move(Dimension memImageDim) {
 
-        /*if ((x - r + dx < 0) || (x + r + dx > memImageDim.width)) {
-         dx = -dx;
-         }
-         if ((y - r + dy < 0) || (y + r + dy > memImageDim.height)) {
-         dy = -dy;
-         }*/
         resolveWallCollision(memImageDim);
 
         x += dx;
@@ -86,11 +81,11 @@ class Oval2 {
     }
 
     void resolveWallCollision(Dimension memImageDim) {
-        if ((x - r + dx < 0) || (x + r + dx > memImageDim.width)) {
+        if ((x - r + dx < 0) || (x + r + dx > memImageDim.width * 10)) {
             angle = 180 - angle;
             setTrajectory();
         }
-        if ((y - r + dy < 0) || (y + r + dy > memImageDim.height)) {
+        if ((y - r + dy < 0) || (y + r + dy > memImageDim.height * 10)) {
             angle = 360 - angle;
             setTrajectory();
         }
