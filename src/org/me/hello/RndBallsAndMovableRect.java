@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -20,12 +19,14 @@ import java.util.logging.Logger;
  */
 public class RndBallsAndMovableRect extends Applet implements Runnable {
 
-    final int OVALS_QTY = 50;
+    final int OVALS_QTY = 10;
 
-    final int D_LIM = 1;
+    //final int D_LIM = 1;
 
     final int R_MIN = 5;
     final int R_MAX = 50;
+
+    final int VELOCITY_MAX = 3;
 
     Thread th;
 
@@ -36,8 +37,8 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
     Dimension memImageDim;
 
     Set<Integer> keysPressed = new HashSet<>();
-    
-    Oval[] oval;
+
+    Oval2[] oval;
     Rect rect;
 
     Random rnd;
@@ -78,12 +79,14 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
     @Override
     public void start() {
 
-        oval = new Oval[OVALS_QTY];
+        oval = new Oval2[OVALS_QTY];
 
         for (int i = 0; i < OVALS_QTY; i++) {
 
-            oval[i] = new Oval(getBounds().width / 2, getBounds().height / 2,
-                    getNextRnd(-D_LIM, D_LIM), getNextRnd(-D_LIM, D_LIM), getNextRnd(R_MIN, R_MAX), new Color(rnd.nextInt()));
+            oval[i] = new Oval2(getBounds().width / 2, getBounds().height / 2,
+                getNextRnd(R_MIN, R_MAX), new Color(rnd.nextInt()));
+            
+            oval[i].setTrajectory(rnd.nextDouble() * VELOCITY_MAX, rnd.nextDouble() * 360);
         }
 
         th.start();
@@ -128,36 +131,24 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
 
         for (int i = 0; i < OVALS_QTY; i++) {
 
-            if ((oval[i].x - oval[i].r + oval[i].dx < 0) || (oval[i].x + oval[i].r + oval[i].dx > memImageDim.width)) {
-                oval[i].dx = -oval[i].dx;
-            }
-            if ((oval[i].y - oval[i].r + oval[i].dy < 0) || (oval[i].y + oval[i].r + oval[i].dy > memImageDim.height)) {
-                oval[i].dy = -oval[i].dy;
-            }
+            oval[i].move(memImageDim);
 
-            oval[i].x += oval[i].dx;
-            oval[i].y += oval[i].dy;
-
-            if (oval[i].dest > 0) {
-                if (oval[i].r < R_MAX) {
-                    oval[i].r++;
-                } else {
-                    oval[i].dest = -1;
-                }
-            } else if (oval[i].r > R_MIN) {
-                oval[i].r--;
-            } else {
-                oval[i].dest = 1;
-            }
+            /*if (oval[i].dest > 0) {
+             if (oval[i].r < R_MAX) {
+             oval[i].r++;
+             } else {
+             oval[i].dest = -1;
+             }
+             } else if (oval[i].r > R_MIN) {
+             oval[i].r--;
+             } else {
+             oval[i].dest = 1;
+             }
+             if (rnd.nextInt(1000) > 995) {
+             oval[i].dest = 1 - oval[i].dest;
+             }*/
             if (rnd.nextInt(1000) > 995) {
-                oval[i].dest = 1 - oval[i].dest;
-            }       
-
-            if (rnd.nextInt(1000) > 995) {
-                oval[i].dx = -oval[i].dx;
-            }
-            if (rnd.nextInt(1000) > 995) {
-                oval[i].dy = -oval[i].dy;
+                oval[i].setTrajectory(rnd.nextDouble() * VELOCITY_MAX, rnd.nextDouble() * 360);
             }
         }
 
