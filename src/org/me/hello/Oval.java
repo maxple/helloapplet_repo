@@ -84,7 +84,7 @@ class Oval {
         x += dx;
         y += dy;
         
-        if (velocity - friction > 0) velocity -= friction;
+        if (velocity - friction - (r >> precision) > 0) velocity = velocity - friction - (r >> precision);
         else velocity = 0;
         
         setTrajectory();

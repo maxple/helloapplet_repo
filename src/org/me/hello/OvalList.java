@@ -19,12 +19,10 @@ class OvalList {
 
     private final int ANGLE_MIN = 0;
     private final int ANGLE_MAX = 360;
-    
-    private final int FRICTION = 10;
-    
-    private final int PRECISION = 10;
 
-    final int OVALS_QTY = 15;
+    private final int FRICTION = 10;
+
+    private final int PRECISION = 10;    
 
     private final ArrayList<Oval> list;
 
@@ -43,18 +41,17 @@ class OvalList {
         list.add(oval);
     }
 
-    void addRndItemGroup(Dimension memImageDim) {
+    void createRndItemGroup(Dimension memImageDim, int quantity) {
 
-        if (list.isEmpty()) {
-            int n = OVALS_QTY;
-            while (n-- > 0) {
-                addRndItem(memImageDim);
-            }
+        list.clear();
+
+        while (quantity-- > 0) {
+            addRndItem(memImageDim);
         }
-        
+
         startAll(VELOCITY << PRECISION);
     }
-    
+
     void startAll(int v) {
 
         for (int i = 0; i < list.size(); i++) {

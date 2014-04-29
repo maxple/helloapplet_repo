@@ -29,9 +29,11 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
     Set<Integer> keysPressed = new HashSet<>();
 
     OvalList ovalList;
-    Rect rect, forceRect;
+    Rect rect, forceRect, quantityRect;
 
-    int velocity;
+    int force, quantity;
+    
+    private final int OVALS_QTY = 15;
 
     @Override
     public void init() {
@@ -53,9 +55,15 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
 
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 
-                    ovalList.startAll(velocity);
-                    velocity = 0;
+                    ovalList.startAll(force);
+                    force = 0;
                     forceRect.setWidth(1);
+                }
+                
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+                    memImageDim = null;
+                    quantityRect.setWidth(1);
                 }
             }
         });
@@ -66,13 +74,17 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
         ovalList = new OvalList();
 
         x = 0;
-        y = 20;
+        y = 40;
 
-        velocity = 0;
+        force = 0;
+        
+        quantity = OVALS_QTY;
 
+        forceRect = new Rect(0, 0, 1, 15, Color.red, 0);
+        
+        quantityRect = new Rect(0, 20, 1, 15, Color.yellow, 0);
+        
         rect = new Rect(x, y, 15, 15, Color.blue, 5);
-
-        forceRect = new Rect(0, 0, 1, 15, Color.blue, 0);
 
         th = new Thread(this);
     }
@@ -109,7 +121,8 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             memImage = createImage(w, h);
             memImageGraphics = memImage.getGraphics();
 
-            ovalList.addRndItemGroup(memImageDim);
+            ovalList.createRndItemGroup(memImageDim, quantity);
+            quantity = 0;
         }
 
         Color cbg = getBackground();
@@ -126,6 +139,12 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
         ovalList.drawAll(memImageGraphics);
 
         forceRect.draw(memImageGraphics);
+        
+        quantityRect.draw(memImageGraphics);
+        
+        memImageGraphics.setColor(cfg);
+        
+        memImageGraphics.drawString(Integer.toString(quantity), 0, 30);
 
         rect.draw(memImageGraphics);
 
@@ -154,8 +173,12 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             rect.moveRight(memImageDim);
         }
         if (keysPressed.contains(KeyEvent.VK_SPACE)) {
-            velocity+=100;
+            force+=100;
             forceRect.enlarge(1);
+        }
+        if (keysPressed.contains(KeyEvent.VK_ENTER)) {
+            quantity++;
+            quantityRect.enlarge(1);
         }
     }
 }
