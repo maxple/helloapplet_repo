@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,9 +29,9 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
     Set<Integer> keysPressed = new HashSet<>();
 
     OvalList ovalList;
-    Rect rect;
+    Rect rect, forceRect;
 
-    Random rnd;
+    int velocity;
 
     @Override
     public void init() {
@@ -51,20 +50,29 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             public void keyReleased(KeyEvent e) {
 
                 keysPressed.remove(e.getKeyCode());
+
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+
+                    ovalList.startAll(velocity);
+                    velocity = 0;
+                    forceRect.setWidth(1);
+                }
             }
         });
 
-        setBackground(Color.white);
+        setBackground(new Color(101, 207, 106));
         setForeground(Color.black);
-        
+
         ovalList = new OvalList();
 
         x = 0;
-        y = 0;
+        y = 20;
 
-        rect = new Rect(x, y, 15, 15, Color.red, 5);
+        velocity = 0;
 
-        rnd = new Random();
+        rect = new Rect(x, y, 15, 15, Color.blue, 5);
+
+        forceRect = new Rect(0, 0, 1, 15, Color.blue, 0);
 
         th = new Thread(this);
     }
@@ -72,7 +80,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
     @Override
     public void start() {
         th.start();
-    }   
+    }
 
     @Override
     public void run() {
@@ -100,7 +108,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             memImageDim = new Dimension(w, h);
             memImage = createImage(w, h);
             memImageGraphics = memImage.getGraphics();
-            
+
             ovalList.addRndItemGroup(memImageDim);
         }
 
@@ -112,40 +120,12 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
         memImageGraphics.fillRect(0, 0, w, h);
 
         memImageGraphics.setColor(cfg);
-        
+
         ovalList.moveAll(memImageDim);
 
-        //for (int i = 0; i < OVALS_QTY; i++) {
-
-            //oval[i].move(memImageDim);
-
-            /*if (oval[i].dest > 0) {
-             if (oval[i].r < R_MAX) {
-             oval[i].r++;
-             } else {
-             oval[i].dest = -1;
-             }
-             } else if (oval[i].r > R_MIN) {
-             oval[i].r--;
-             } else {
-             oval[i].dest = 1;
-             }
-             if (rnd.nextInt(1000) > 995) {
-             oval[i].dest = 1 - oval[i].dest;
-             }*/
-            /*if (rnd.nextInt(1000) > 995) {
-             oval[i].setVelocity(rnd.nextDouble() * VELOCITY_MAX + 1);
-             }
-             if (rnd.nextInt(1000) > 995) {
-             oval[i].setAngle(rnd.nextDouble() * 360);
-             }*/
-        //}
-
-        /*for (int i = 0; i < OVALS_QTY; i++) {
-            oval[i].draw(memImageGraphics);
-        }*/
-        
         ovalList.drawAll(memImageGraphics);
+
+        forceRect.draw(memImageGraphics);
 
         rect.draw(memImageGraphics);
 
@@ -172,6 +152,10 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
         }
         if (keysPressed.contains(KeyEvent.VK_RIGHT)) {
             rect.moveRight(memImageDim);
+        }
+        if (keysPressed.contains(KeyEvent.VK_SPACE)) {
+            velocity+=100;
+            forceRect.enlarge(1);
         }
     }
 }

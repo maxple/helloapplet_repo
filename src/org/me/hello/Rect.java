@@ -28,7 +28,11 @@ class Rect {
     void enlarge(int d) {
         
         width += d;
-        height += d;
+    }
+    
+    void setWidth(int width) {
+        
+        this.width = width;
     }
 
     void draw(Graphics g) {

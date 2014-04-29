@@ -15,15 +15,18 @@ class OvalList {
     private final int R_MIN = 5;
     private final int R_MAX = 50;
 
-    private final int VELOCITY_MIN = 3;
-    private final int VELOCITY_MAX = 7;
-    
+    private final int VELOCITY = 15;
+
     private final int ANGLE_MIN = 0;
-    private final int ANGLE_MAX = 360;   
+    private final int ANGLE_MAX = 360;
+    
+    private final int FRICTION = 10;
+    
+    private final int PRECISION = 10;
 
-    final int OVALS_QTY = 10;
+    final int OVALS_QTY = 15;
 
-    private final ArrayList<Oval2> list;
+    private final ArrayList<Oval> list;
 
     Random rnd;
 
@@ -34,11 +37,8 @@ class OvalList {
 
     void addRndItem(Dimension memImageDim) {
 
-        Oval2 oval = new Oval2(memImageDim.width / 2, memImageDim.height / 2,
-                getNextRnd(R_MIN, R_MAX), new Color(rnd.nextInt()));
-
-        oval.setVelocity(getNextRnd(VELOCITY_MIN, VELOCITY_MAX));
-        oval.setAngle(getNextRnd(ANGLE_MIN, ANGLE_MAX));
+        Oval oval = new Oval(memImageDim.width / 2, memImageDim.height / 2,
+                getNextRnd(R_MIN, R_MAX), new Color(rnd.nextInt()), FRICTION, PRECISION);
 
         list.add(oval);
     }
@@ -51,10 +51,16 @@ class OvalList {
                 addRndItem(memImageDim);
             }
         }
+        
+        startAll(VELOCITY << PRECISION);
     }
+    
+    void startAll(int v) {
 
-    Oval2 getItem(int n) {
-        return list.get(n);
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setVelocity(v);
+            list.get(i).setAngle(getNextRnd(ANGLE_MIN, ANGLE_MAX));
+        }
     }
 
     void moveAll(Dimension memImageDim) {
