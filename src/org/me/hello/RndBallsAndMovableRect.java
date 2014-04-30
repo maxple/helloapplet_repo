@@ -101,7 +101,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             try {
                 keysEventHandler();
                 repaint();
-                Thread.sleep(50);
+                Thread.sleep(10);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RndBallsAndMovableRect.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -135,6 +135,8 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             memImageGraphics.fillRect(0, 0, w, h);
 
             memImageGraphics.setColor(cfg);
+            
+            //ovalList.resolveMutualCollision(memImageDim);
 
             ovalList.moveAll(memImageDim);
 

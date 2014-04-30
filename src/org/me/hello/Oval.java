@@ -10,6 +10,7 @@ class Oval {
     private int x, y, velocity, angle, velocityX, velocityY;
     private final int r, friction;
     private final int precision;
+    private boolean free;
 
     public Oval(int x, int y, int r, Color color, int friction, int precision) {
 
@@ -38,18 +39,30 @@ class Oval {
     int getR() {
         return r >> precision;
     }
+    
+    void setFree(boolean free) {
+        this.free = free;
+    }
+    
+    boolean getFree() {
+        return free;
+    }
 
     void draw(Graphics g, Dimension memImageDim) {
         
+        int y = memImageDim.height - 1 - getY();
+        int shiftY = 0;
+        
         g.setColor(color);
-        g.fillOval(getX() - getR(), memImageDim.height - 1 - getY() - getR(), getR() * 2, getR() * 2);
-        /*g.drawString("x=" + Integer.toString(x), getX(), getY());
-        g.drawString("y=" + Integer.toString(y), getX(), getY() + 10);
-        g.drawString("r=" + Integer.toString(r), getX(), getY() + 20);
-        g.drawString("v=" + Integer.toString(velocity), getX(), getY() + 30);
-        g.drawString("a=" + Integer.toString(angle), getX(), getY() + 40);
-        g.drawString("dx=" + Integer.toString(velocityX), getX(), getY() + 50);
-        g.drawString("dy=" + Integer.toString(velocityY), getX(), getY() + 60);*/
+        g.fillOval(getX() - getR(), y - getR(), getR() * 2, getR() * 2);
+        //g.drawString("x=" + Integer.toString(x), getX(), y + shiftY++*10);
+        //g.drawString("y=" + Integer.toString(y), getX(), y + shiftY++*10);
+        /*g.drawString("r=" + Integer.toString(r), getX(), y + shiftY++*10);
+        g.drawString("v=" + Integer.toString(velocity), getX(), y + shiftY++*10);
+        g.drawString("a=" + Integer.toString(angle), getX(), y + shiftY++*10);
+        g.drawString("velocityX=" + Integer.toString(velocityX), getX(), y + shiftY++*10);
+        g.drawString("velocityY=" + Integer.toString(velocityY), getX(), y + shiftY++*10);
+        g.drawString("free=" + Boolean.toString(free), getX(), y + shiftY++*10);*/
     }
 
     void setVelocity(int velocity) {
