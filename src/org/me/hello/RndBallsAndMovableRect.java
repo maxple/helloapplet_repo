@@ -179,7 +179,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             forceRect.enlarge(1);
         }
         if (keysPressed.contains(KeyEvent.VK_ENTER)) {
-            quantity++;
+            quantity=2;
             quantityRect.enlarge(1);
         }
     }

@@ -12,7 +12,7 @@ class Oval {
     private final int precision;
 
     public Oval(int x, int y, int r, Color color, int friction, int precision) {
-        
+
         this.precision = precision;
 
         this.x = x << precision;
@@ -38,8 +38,10 @@ class Oval {
     int getR() {
         return r >> precision;
     }
-    
+
     void draw(Graphics g) {
+        
+        g.ge
 
         g.setColor(color);
         g.fillOval(getX() - getR(), getY() - getR(), getR() * 2, getR() * 2);
@@ -48,8 +50,8 @@ class Oval {
         g.drawString("r=" + Integer.toString(r), getX(), getY() + 20);
         g.drawString("v=" + Integer.toString(velocity), getX(), getY() + 30);
         g.drawString("a=" + Integer.toString(angle), getX(), getY() + 40);
-        g.drawString("dx=" + Integer.toString(dx), getX(), getY() + 50);
-        g.drawString("dy=" + Integer.toString(dy), getX(), getY() + 60);*/
+        g.drawString("dx=" + Integer.toString(velocityX), getX(), getY() + 50);
+        g.drawString("dy=" + Integer.toString(velocityY), getX(), getY() + 60);*/
     }
 
     void setVelocity(int velocity) {
@@ -71,7 +73,7 @@ class Oval {
     int getAngle() {
         return angle;
     }
-    
+
     void setColor(Color color) {
 
         this.color = color;
@@ -79,13 +81,13 @@ class Oval {
 
     void decompVelocity() {
         velocityX = (int) (velocity * Math.cos(Math.toRadians(angle)));
-        velocityY = (int) (velocity * Math.sin(Math.toRadians(-angle)));
+        velocityY = (int) (velocity * Math.sin(Math.toRadians(angle)));
     }
-    
+
     int getVelocityX() {
         return velocityX;
     }
-    
+
     int getVelocityY() {
         return velocityY;
     }
@@ -96,10 +98,15 @@ class Oval {
 
         x += velocityX;
         y += velocityY;
-        
-        /*if (velocity - friction - (r >> precision) > 0) velocity = velocity - friction - (r >> precision);
-        else velocity = 0;*/
-        
+
+        if (friction > 0) {
+            if (velocity - friction - (r >> precision) > 0) {
+                velocity = velocity - friction - (r >> precision);
+            } else {
+                velocity = 0;
+            }
+        }
+
         decompVelocity();
     }
 

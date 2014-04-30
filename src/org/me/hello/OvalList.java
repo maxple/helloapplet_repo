@@ -48,10 +48,11 @@ class OvalList {
             Oval oval = new Oval(nextX, nextY,
                 getNextRnd(R_MIN, R_MAX), Color.red, FRICTION, PRECISION);
 
-            //oval.setAngle(nextAngle);
+            oval.setAngle(nextAngle);
             list.add(oval);
 
             nextX += INIT_X;
+            nextY += INIT_Y / 3;
             if (nextX + R_MAX > memImageDim.width) {
                 nextX = INIT_X;
                 nextY += INIT_Y;
@@ -60,7 +61,7 @@ class OvalList {
                 }
             }
 
-            //nextAngle = 180 - nextAngle;
+            nextAngle = 180 - nextAngle;
         }
     }
 
@@ -68,7 +69,7 @@ class OvalList {
 
         nextX = INIT_X;
         nextY = INIT_Y;
-        //nextAngle = 0;
+        nextAngle = 0;
         saturation = false;
 
         list.clear();
@@ -82,9 +83,13 @@ class OvalList {
 
     void startAll(int velocity) {
 
-        for (Oval oval : list) {
-            oval.setVelocity(velocity);
-            oval.setAngle(getNextRnd(ANGLE_MIN, ANGLE_MAX));
+        for (int i1 = 0; i1 < list.size(); i1++) {
+            if (i1 % 2 == 0) {
+                list.get(i1).setVelocity(velocity);
+            } else {
+                list.get(i1).setVelocity(0);
+            }
+            //oval.setAngle(getNextRnd(ANGLE_MIN, ANGLE_MAX));
         }
     }
 
@@ -125,7 +130,7 @@ class OvalList {
 
         for (int i1 = 0; i1 < list.size(); i1++) {
             for (int i2 = i1 + 1; i2 < list.size(); i2++) {
-                
+
                 oval1 = list.get(i1);
                 oval2 = list.get(i2);
 
@@ -141,9 +146,9 @@ class OvalList {
                     vx2 = oval2.getVelocityX();
                     vy2 = oval2.getVelocityY();
 
-                    temp = vx1;
+                    /*temp = vx1;
                     vx1 = vx2;
-                    vx2 = temp;
+                    vx2 = temp;*/
 
                     oval1.setVelocity((int) Math.sqrt(vx1 * vx1 + vy1 * vy1));
                     oval2.setVelocity((int) Math.sqrt(vx2 * vx2 + vy2 * vy2));
@@ -160,9 +165,9 @@ class OvalList {
                     }
 
                     /*while (checkMutualCollision(oval1, oval2)) {
-                        oval1.move(memImageDim);
-                        oval2.move(memImageDim);
-                    }*/
+                     oval1.move(memImageDim);
+                     oval2.move(memImageDim);
+                     }*/
                 }
             }
         }
