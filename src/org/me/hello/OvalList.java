@@ -52,7 +52,7 @@ class OvalList {
             list.add(oval);
 
             nextX += INIT_X;
-            nextY += INIT_Y / 3;
+            //nextY += INIT_Y / 3;
             if (nextX + R_MAX > memImageDim.width) {
                 nextX = INIT_X;
                 nextY += INIT_Y;
@@ -61,7 +61,7 @@ class OvalList {
                 }
             }
 
-            nextAngle = 180 - nextAngle;
+            nextAngle += 90;
         }
     }
 
@@ -85,11 +85,13 @@ class OvalList {
 
         for (int i1 = 0; i1 < list.size(); i1++) {
             if (i1 % 2 == 0) {
-                list.get(i1).setVelocity(velocity);
-            } else {
-                list.get(i1).setVelocity(0);
-            }
-            //oval.setAngle(getNextRnd(ANGLE_MIN, ANGLE_MAX));
+             list.get(i1).setVelocity(velocity);
+             } else {
+             list.get(i1).setVelocity(0);
+             }
+
+            //list.get(i1).setVelocity(velocity);
+            //list.get(i1).setAngle(getNextRnd(ANGLE_MIN, ANGLE_MAX));
         }
     }
 
@@ -100,10 +102,10 @@ class OvalList {
         }
     }
 
-    void drawAll(Graphics memImageGraphics) {
+    void drawAll(Graphics memImageGraphics, Dimension memImageDim) {
 
         for (Oval oval : list) {
-            oval.draw(memImageGraphics);
+            oval.draw(memImageGraphics, memImageDim);
         }
     }
 
@@ -146,9 +148,9 @@ class OvalList {
                     vx2 = oval2.getVelocityX();
                     vy2 = oval2.getVelocityY();
 
-                    /*temp = vx1;
+                    temp = vx1;
                     vx1 = vx2;
-                    vx2 = temp;*/
+                    vx2 = temp;
 
                     oval1.setVelocity((int) Math.sqrt(vx1 * vx1 + vy1 * vy1));
                     oval2.setVelocity((int) Math.sqrt(vx2 * vx2 + vy2 * vy2));
@@ -164,10 +166,11 @@ class OvalList {
                         oval2.setAngle((int) Math.toDegrees(Math.atan2(vy2, vx2)) + alpha);
                     }
 
-                    /*while (checkMutualCollision(oval1, oval2)) {
-                     oval1.move(memImageDim);
+                    /*oval1.move(memImageDim);
                      oval2.move(memImageDim);
-                     }*/
+                    
+                     oval1.move(memImageDim);
+                     oval2.move(memImageDim);*/
                 }
             }
         }
@@ -177,7 +180,7 @@ class OvalList {
 
         int dr, sdr, sdx, sdy, v;
 
-        dr = oval2.getR() + oval1.getR();
+        dr = oval2.getR() + oval1.getR() + oval2.getVelocity() + oval1.getVelocity();
         sdr = dr * dr;
 
         dx = oval2.getX() - oval1.getX();
@@ -186,7 +189,6 @@ class OvalList {
         dy = oval2.getY() - oval1.getY();
         sdy = dy * dy;
 
-        //v = oval1.getVelocity() + oval2.getVelocity();
-        return (sdx + sdy < sdr + 20);
+        return (sdx + sdy < sdr);
     }
 }

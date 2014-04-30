@@ -39,12 +39,10 @@ class Oval {
         return r >> precision;
     }
 
-    void draw(Graphics g) {
+    void draw(Graphics g, Dimension memImageDim) {
         
-        g.ge
-
         g.setColor(color);
-        g.fillOval(getX() - getR(), getY() - getR(), getR() * 2, getR() * 2);
+        g.fillOval(getX() - getR(), memImageDim.height - 1 - getY() - getR(), getR() * 2, getR() * 2);
         /*g.drawString("x=" + Integer.toString(x), getX(), getY());
         g.drawString("y=" + Integer.toString(y), getX(), getY() + 10);
         g.drawString("r=" + Integer.toString(r), getX(), getY() + 20);

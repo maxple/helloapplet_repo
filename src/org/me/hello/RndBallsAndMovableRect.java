@@ -33,7 +33,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
 
     int force, quantity;
 
-    private final int OVALS_QTY = 4;
+    private final int INIT_OVALS_QTY = 3;
 
     @Override
     public void init() {
@@ -78,7 +78,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
 
         force = 0;
 
-        quantity = OVALS_QTY;
+        quantity = INIT_OVALS_QTY;
 
         forceRect = new Rect(0, 0, 1, 15, Color.red, 0);
 
@@ -101,7 +101,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             try {
                 keysEventHandler();
                 repaint();
-                Thread.sleep(10);
+                Thread.sleep(50);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RndBallsAndMovableRect.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -116,41 +116,44 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
         w = getBounds().width;
         h = getBounds().height;
 
-        if ((memImageDim == null) || (memImageDim.width != w) || (memImageDim.height != h)) {
-            memImageDim = new Dimension(w, h);
-            memImage = createImage(w, h);
-            memImageGraphics = memImage.getGraphics();
+        if ((w > 0) && (h > 0)) {
 
-            ovalList.createRndItemGroup(memImageDim, quantity);
-            quantity = 0;
+            if ((memImageDim == null) || (memImageDim.width != w) || (memImageDim.height != h)) {
+                memImageDim = new Dimension(w, h);
+                memImage = createImage(w, h);
+                memImageGraphics = memImage.getGraphics();
+
+                ovalList.createRndItemGroup(memImageDim, quantity);
+                quantity = 0;
+            }
+
+            Color cbg = getBackground();
+            Color cfg = getForeground();
+
+            memImageGraphics.setColor(cbg);
+
+            memImageGraphics.fillRect(0, 0, w, h);
+
+            memImageGraphics.setColor(cfg);
+
+            ovalList.moveAll(memImageDim);
+
+            ovalList.resolveMutualCollision(memImageDim);
+
+            ovalList.drawAll(memImageGraphics, memImageDim);
+
+            forceRect.draw(memImageGraphics);
+
+            quantityRect.draw(memImageGraphics);
+
+            memImageGraphics.setColor(cfg);
+
+            memImageGraphics.drawString(Integer.toString(quantity), 0, 30);
+
+            rect.draw(memImageGraphics);
+
+            paint(g);
         }
-
-        Color cbg = getBackground();
-        Color cfg = getForeground();
-
-        memImageGraphics.setColor(cbg);
-
-        memImageGraphics.fillRect(0, 0, w, h);
-
-        memImageGraphics.setColor(cfg);
-
-        ovalList.moveAll(memImageDim);
-
-        ovalList.resolveMutualCollision(memImageDim);
-
-        ovalList.drawAll(memImageGraphics);
-
-        forceRect.draw(memImageGraphics);
-
-        quantityRect.draw(memImageGraphics);
-
-        memImageGraphics.setColor(cfg);
-
-        memImageGraphics.drawString(Integer.toString(quantity), 0, 30);
-
-        rect.draw(memImageGraphics);
-
-        paint(g);
     }
 
     @Override
@@ -179,7 +182,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             forceRect.enlarge(1);
         }
         if (keysPressed.contains(KeyEvent.VK_ENTER)) {
-            quantity=2;
+            quantity=3;
             quantityRect.enlarge(1);
         }
     }
