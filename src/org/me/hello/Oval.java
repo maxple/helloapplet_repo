@@ -6,8 +6,8 @@ import java.awt.Graphics;
 
 class Oval {
 
-    private final Color color;
-    private int x, y, velocity, angle, dx, dy;
+    private Color color;
+    private int x, y, velocity, angle, velocityX, velocityY;
     private final int r, friction;
     private final int precision;
 
@@ -21,8 +21,8 @@ class Oval {
         this.color = color;
         this.friction = friction;
 
-        dx = 1;
-        dy = 1;
+        velocityX = 1;
+        velocityY = 1;
         velocity = 1;
         angle = 0;
     }
@@ -55,49 +55,62 @@ class Oval {
     void setVelocity(int velocity) {
 
         this.velocity = velocity;
-        setTrajectory();
+        decompVelocity();
     }
 
-    double getVelocity() {
-        return velocity;
+    int getVelocity() {
+        return velocity >> precision;
     }
 
     void setAngle(int angle) {
 
         this.angle = angle;
-        setTrajectory();
+        decompVelocity();
     }
 
-    double getAngle() {
+    int getAngle() {
         return angle;
     }
+    
+    void setColor(Color color) {
 
-    void setTrajectory() {
-        dx = (int) (velocity * Math.cos(Math.toRadians(angle)));
-        dy = (int) (velocity * Math.sin(Math.toRadians(-angle)));
+        this.color = color;
+    }
+
+    void decompVelocity() {
+        velocityX = (int) (velocity * Math.cos(Math.toRadians(angle)));
+        velocityY = (int) (velocity * Math.sin(Math.toRadians(-angle)));
+    }
+    
+    int getVelocityX() {
+        return velocityX;
+    }
+    
+    int getVelocityY() {
+        return velocityY;
     }
 
     void move(Dimension memImageDim) {
 
         resolveWallCollision(memImageDim);
 
-        x += dx;
-        y += dy;
+        x += velocityX;
+        y += velocityY;
         
-        if (velocity - friction - (r >> precision) > 0) velocity = velocity - friction - (r >> precision);
-        else velocity = 0;
+        /*if (velocity - friction - (r >> precision) > 0) velocity = velocity - friction - (r >> precision);
+        else velocity = 0;*/
         
-        setTrajectory();
+        decompVelocity();
     }
 
     void resolveWallCollision(Dimension memImageDim) {
-        if ((x - r + dx < 0) || (x + r + dx > (memImageDim.width << precision))) {
+        if ((x - r + velocityX < 0) || (x + r + velocityX > (memImageDim.width << precision))) {
             angle = 180 - angle;
-            setTrajectory();
+            decompVelocity();
         }
-        if ((y - r + dy < 0) || (y + r + dy > (memImageDim.height << precision))) {
+        if ((y - r + velocityY < 0) || (y + r + velocityY > (memImageDim.height << precision))) {
             angle = 360 - angle;
-            setTrajectory();
+            decompVelocity();
         }
     }
 }

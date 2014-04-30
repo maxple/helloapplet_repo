@@ -32,8 +32,8 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
     Rect rect, forceRect, quantityRect;
 
     int force, quantity;
-    
-    private final int OVALS_QTY = 15;
+
+    private final int OVALS_QTY = 4;
 
     @Override
     public void init() {
@@ -59,7 +59,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
                     force = 0;
                     forceRect.setWidth(1);
                 }
-                
+
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
                     memImageDim = null;
@@ -77,13 +77,13 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
         y = 40;
 
         force = 0;
-        
+
         quantity = OVALS_QTY;
 
         forceRect = new Rect(0, 0, 1, 15, Color.red, 0);
-        
+
         quantityRect = new Rect(0, 20, 1, 15, Color.yellow, 0);
-        
+
         rect = new Rect(x, y, 15, 15, Color.blue, 5);
 
         th = new Thread(this);
@@ -136,14 +136,16 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
 
         ovalList.moveAll(memImageDim);
 
+        ovalList.resolveMutualCollision(memImageDim);
+
         ovalList.drawAll(memImageGraphics);
 
         forceRect.draw(memImageGraphics);
-        
+
         quantityRect.draw(memImageGraphics);
-        
+
         memImageGraphics.setColor(cfg);
-        
+
         memImageGraphics.drawString(Integer.toString(quantity), 0, 30);
 
         rect.draw(memImageGraphics);
@@ -173,7 +175,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             rect.moveRight(memImageDim);
         }
         if (keysPressed.contains(KeyEvent.VK_SPACE)) {
-            force+=100;
+            force += 100;
             forceRect.enlarge(1);
         }
         if (keysPressed.contains(KeyEvent.VK_ENTER)) {
