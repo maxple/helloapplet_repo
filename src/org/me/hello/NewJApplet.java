@@ -10,6 +10,8 @@ package org.me.hello;
  * @author pletnyov
  */
 public class NewJApplet extends javax.swing.JApplet {
+    
+    Thread th;
 
     /**
      * Initializes the applet NewJApplet
@@ -45,7 +47,9 @@ public class NewJApplet extends javax.swing.JApplet {
                 @Override
                 public void run() {
                     initComponents();
-                    new Thread(new Animator(jPanel1)).start();
+                    th = new Thread(new Animator((Surface) jPanel1));
+                    ((Surface) jPanel1).prepare();
+                    th.start();
                 }
             });
         } catch (Exception ex) {
@@ -116,10 +120,11 @@ public class NewJApplet extends javax.swing.JApplet {
 
 class Animator implements Runnable {
 
-    javax.swing.JPanel jPanel1;
+    Surface jPanel1;
 
-    public Animator(javax.swing.JPanel jPanel1) {
+    public Animator(Surface jPanel1) {
         this.jPanel1 = jPanel1;
+        
     }
 
     @Override

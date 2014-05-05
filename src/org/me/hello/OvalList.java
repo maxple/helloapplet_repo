@@ -44,7 +44,7 @@ class OvalList {
 
     void addRndItem(Dimension memImageDim, int number) {
 
-        if (saturation == false) {
+        //if (saturation == false) {
             Oval oval = new Oval(nextX, nextY,
                 getNextRnd(R_MIN, R_MAX), new Color(getNextRnd(0, 200), getNextRnd(0, 200), getNextRnd(0, 200)), FRICTION, PRECISION, number);
 
@@ -62,7 +62,7 @@ class OvalList {
             }
 
             nextAngle += 90;
-        }
+        //}
     }
 
     void createRndItemGroup(Dimension memImageDim, int quantity) {
