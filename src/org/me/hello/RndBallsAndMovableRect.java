@@ -68,7 +68,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             }
         });
 
-        setBackground(new Color(101, 207, 106));
+        setBackground(Color.white/*new Color(101, 207, 106)*/);
         setForeground(Color.black);
 
         ovalList = new OvalList();
@@ -179,7 +179,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             rect.moveRight(memImageDim);
         }
         if (keysPressed.contains(KeyEvent.VK_SPACE)) {
-            force += 100;
+            if (force < 255*100) force += 100;
             forceRect.enlarge(1);
         }
         if (keysPressed.contains(KeyEvent.VK_ENTER)) {

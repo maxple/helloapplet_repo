@@ -12,8 +12,8 @@ import java.util.Random;
  */
 class OvalList {
 
-    private final int R_MIN = 10;
-    private final int R_MAX = 10;
+    private final int R_MIN = 5;
+    private final int R_MAX = 30;
 
     private final int VELOCITY = 1;
 
@@ -32,8 +32,8 @@ class OvalList {
 
     int nextX, nextY, nextAngle;
 
-    private final int INIT_X = 50;
-    private final int INIT_Y = 50;
+    private final int INIT_X = 100;
+    private final int INIT_Y = 100;
 
     int dx, dy;
 
@@ -46,7 +46,7 @@ class OvalList {
 
         if (saturation == false) {
             Oval oval = new Oval(nextX, nextY,
-                getNextRnd(R_MIN, R_MAX), Color.red, FRICTION, PRECISION);
+                getNextRnd(R_MIN, R_MAX), new Color(rnd.nextInt()), FRICTION, PRECISION);
 
             oval.setAngle(nextAngle);
             list.add(oval);
@@ -127,7 +127,7 @@ class OvalList {
 
     void resolveMutualCollision(Dimension memImageDim) {
 
-        int alpha, vx1, vy1, vx2, vy2, temp, v1, v2, a1, a2;
+        int alpha, vx1, vy1, vx2, vy2, temp, v1, v2, a1, a2, m1, m2, vx1res, vx2res;
         Oval oval1, oval2;
 
         for (int i1 = 0; i1 < list.size(); i1++) {
@@ -154,9 +154,14 @@ class OvalList {
                     vx2 = oval2.getVelocityX();
                     vy2 = oval2.getVelocityY();
 
-                    temp = vx1;
-                    vx1 = vx2;
-                    vx2 = temp;
+                    m1 = oval1.getR();
+                    m2 = oval2.getR();
+
+                    vx1res = ((vx1 * (m1 - m2)) + (2 * m2 * vx2)) / (m2 + m1);
+                    vx2res = vx1 + vx1res - vx2;
+                    
+                    vx1 = vx1res;
+                    vx2 = vx2res;
 
                     v1 = (int) Math.sqrt(vx1 * vx1 + vy1 * vy1);
                     v2 = (int) Math.sqrt(vx2 * vx2 + vy2 * vy2);
@@ -203,9 +208,9 @@ class OvalList {
 
         dy = oval2.getY() - oval1.getY();
         sdy = dy * dy;
-        
+
         before = sdx + sdy < sdr;
-        
+
         oval1.moveForward(memImageDim);
         oval2.moveForward(memImageDim);
 
@@ -214,9 +219,9 @@ class OvalList {
 
         dy = oval2.getY() - oval1.getY();
         sdy = dy * dy;
-        
+
         now = sdx + sdy < sdr;
-        
+
         oval1.moveForward(memImageDim);
         oval2.moveForward(memImageDim);
 
@@ -225,14 +230,12 @@ class OvalList {
 
         dy = oval2.getY() - oval1.getY();
         sdy = dy * dy;
-        
+
         after = sdx + sdy < sdr;
-        
+
         oval1.moveBack(memImageDim);
         oval2.moveBack(memImageDim);
-        
-        if (before == false && now == true && after == true) return true;
-        
-        return false;
+
+        return (before == false && now == true && after == true);
     }
 }

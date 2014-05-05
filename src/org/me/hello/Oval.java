@@ -50,19 +50,31 @@ class Oval {
 
     void draw(Graphics g, Dimension memImageDim) {
 
-        int y = memImageDim.height - 1 - getY();
-        int shiftY = 0;
+        int ydim = memImageDim.height - 1 - getY();
+        int red = 0, green = 0, blue = 0, shiftY = 0;
+
+        /*if (velocity / 10 <= 255) {
+            red = velocity / 10;
+        } else {
+            red = 0;
+            if (velocity / 100 <= 255) {
+                green = velocity / 100;
+            }
+        }
+
+        color = new Color(red, green, blue);*/
 
         g.setColor(color);
-        g.fillOval(getX() - getR(), y - getR(), getR() * 2, getR() * 2);
-        //g.drawString("x=" + Integer.toString(x), getX(), y + shiftY++*10);
-        //g.drawString("y=" + Integer.toString(y), getX(), y + shiftY++*10);
-        //g.drawString("r=" + Integer.toString(r), getX(), y + shiftY++*10);
-        //g.drawString("v=" + Integer.toString(velocity), getX(), y + shiftY++*10);
-        //g.drawString("a=" + Integer.toString(angle), getX(), y + shiftY++*10);
-        //g.drawString("velocityX=" + Integer.toString(velocityX), getX(), y + shiftY++*10);
-        //g.drawString("velocityY=" + Integer.toString(velocityY), getX(), y + shiftY++*10);
-        //g.drawString("free=" + Boolean.toString(free), getX(), y + shiftY++*10);
+
+        g.fillOval(getX() - getR(), ydim - getR(), getR() * 2, getR() * 2);
+        //g.drawString("x=" + Integer.toString(x), getX(), ydim + shiftY++*10);
+        //g.drawString("ydim=" + Integer.toString(y), getX(), ydim + shiftY++*10);
+        //g.drawString("r=" + Integer.toString(r), getX(), ydim + shiftY++*10);
+        //g.drawString("v=" + Integer.toString(velocity), getX(), ydim + shiftY++ * 10);
+        //g.drawString("a=" + Integer.toString(angle), getX(), ydim + shiftY++*10);
+        //g.drawString("velocityX=" + Integer.toString(velocityX), getX(), ydim + shiftY++*10);
+        //g.drawString("velocityY=" + Integer.toString(velocityY), getX(), ydim + shiftY++*10);
+        //g.drawString("free=" + Boolean.toString(free), getX(), ydim + shiftY++*10);
     }
 
     void setVelocity(int velocity) {
@@ -109,7 +121,7 @@ class Oval {
 
         x += velocityX;
         y += velocityY;
-        
+
         applyFriction();
     }
 
@@ -125,7 +137,7 @@ class Oval {
     }
 
     void applyFriction() {
-        
+
         if (friction > 0) {
             if (velocity - friction - (r >> precision) > 0) {
                 velocity = velocity - friction - (r >> precision);
@@ -140,15 +152,13 @@ class Oval {
     void moveForward(Dimension memImageDim) {
 
         //resolveWallCollision(memImageDim);
-        
         x += velocityX;
         y += velocityY;
     }
 
     void moveBack(Dimension memImageDim) {
-        
-        //resolveWallCollision(memImageDim);
 
+        //resolveWallCollision(memImageDim);
         x -= velocityX;
         y -= velocityY;
     }
