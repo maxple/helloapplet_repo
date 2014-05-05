@@ -42,11 +42,11 @@ class OvalList {
         rnd = new Random();
     }
 
-    void addRndItem(Dimension memImageDim) {
+    void addRndItem(Dimension memImageDim, int number) {
 
         if (saturation == false) {
             Oval oval = new Oval(nextX, nextY,
-                getNextRnd(R_MIN, R_MAX), new Color(rnd.nextInt()), FRICTION, PRECISION);
+                getNextRnd(R_MIN, R_MAX), new Color(rnd.nextInt()), FRICTION, PRECISION, number);
 
             oval.setAngle(nextAngle);
             list.add(oval);
@@ -66,6 +66,8 @@ class OvalList {
     }
 
     void createRndItemGroup(Dimension memImageDim, int quantity) {
+        
+        int number = 0;
 
         nextX = INIT_X;
         nextY = INIT_Y;
@@ -75,7 +77,7 @@ class OvalList {
         list.clear();
 
         while (quantity-- > 0) {
-            addRndItem(memImageDim);
+            addRndItem(memImageDim, number++);
         }
 
         startAll(VELOCITY << PRECISION);

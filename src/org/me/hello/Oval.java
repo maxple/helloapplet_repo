@@ -8,11 +8,10 @@ class Oval {
 
     private Color color;
     private int x, y, velocity, angle, velocityX, velocityY;
-    private final int r, friction;
-    private final int precision;
+    private final int r, friction, precision, number;
     private boolean free;
 
-    public Oval(int x, int y, int r, Color color, int friction, int precision) {
+    public Oval(int x, int y, int r, Color color, int friction, int precision, int number) {
 
         this.precision = precision;
 
@@ -21,10 +20,11 @@ class Oval {
         this.r = r << precision;
         this.color = color;
         this.friction = friction;
+        this.number = number;
 
-        velocityX = 1;
-        velocityY = 1;
-        velocity = 1;
+        velocityX = 0;
+        velocityY = 0;
+        velocity = 0;
         angle = 0;
     }
 
@@ -51,21 +51,16 @@ class Oval {
     void draw(Graphics g, Dimension memImageDim) {
 
         int ydim = memImageDim.height - 1 - getY();
-        int red = 0, green = 0, blue = 0, shiftY = 0;
+        //int shiftY = 0;
 
-        /*if (velocity / 10 <= 255) {
-         red = velocity / 10;
-         } else {
-         red = 0;
-         if (velocity / 100 <= 255) {
-         green = velocity / 100;
-         }
-         }
-
-         color = new Color(red, green, blue);*/
         g.setColor(color);
 
         g.fillOval(getX() - getR(), ydim - getR(), getR() * 2, getR() * 2);
+        
+        g.setColor(Color.white);
+        
+        g.drawString(Integer.toString(number), getX(), ydim);
+        
         //g.drawString("x=" + Integer.toString(x), getX(), ydim + shiftY++*10);
         //g.drawString("ydim=" + Integer.toString(y), getX(), ydim + shiftY++*10);
         //g.drawString("r=" + Integer.toString(r), getX(), ydim + shiftY++*10);

@@ -68,7 +68,7 @@ public class Pool extends Applet implements Runnable {
             }
         });
 
-        setBackground(Color.white/*new Color(101, 207, 106)*/);
+        setBackground(new Color(200, 255, 200));
         setForeground(Color.black);
 
         ovalList = new OvalList();
@@ -136,7 +136,6 @@ public class Pool extends Applet implements Runnable {
 
             memImageGraphics.setColor(cfg);
 
-            //ovalList.resolveMutualCollision(memImageDim);
             ovalList.moveAll(memImageDim);
 
             ovalList.resolveMutualCollision(memImageDim);
