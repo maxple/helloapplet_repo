@@ -188,7 +188,7 @@ public class Pool extends Applet implements Runnable {
             forceRect.enlarge(1);
         }
         if (keysPressed.contains(KeyEvent.VK_ENTER)) {
-            quantity++;
+            /*if (quantity < 7)*/ quantity++;
             quantityRect.enlarge(1);
         }
     }

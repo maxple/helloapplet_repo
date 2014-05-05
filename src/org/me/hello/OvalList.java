@@ -13,7 +13,7 @@ import java.util.Random;
 class OvalList {
 
     private final int R_MIN = 20;
-    private final int R_MAX = 50;
+    private final int R_MAX = 30;
 
     private final int VELOCITY = 1;
 
@@ -66,7 +66,7 @@ class OvalList {
     }
 
     void createRndItemGroup(Dimension memImageDim, int quantity) {
-        
+
         int number = 0;
 
         nextX = INIT_X;
@@ -161,7 +161,7 @@ class OvalList {
 
                     vx1res = ((vx1 * (m1 - m2)) + (2 * m2 * vx2)) / (m2 + m1);
                     vx2res = vx1 + vx1res - vx2;
-                    
+
                     vx1 = vx1res;
                     vx2 = vx2res;
 
