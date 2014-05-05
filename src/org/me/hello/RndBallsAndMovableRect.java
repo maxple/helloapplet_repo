@@ -101,7 +101,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             try {
                 keysEventHandler();
                 repaint();
-                Thread.sleep(10);
+                Thread.sleep(500);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RndBallsAndMovableRect.class.getName()).log(Level.SEVERE, null, ex);
             }

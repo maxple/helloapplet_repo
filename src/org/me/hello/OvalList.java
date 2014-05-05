@@ -12,8 +12,8 @@ import java.util.Random;
  */
 class OvalList {
 
-    private final int R_MIN = 50;
-    private final int R_MAX = 50;
+    private final int R_MIN = 20;
+    private final int R_MAX = 20;
 
     private final int VELOCITY = 1;
 
@@ -30,10 +30,10 @@ class OvalList {
 
     boolean saturation;
 
-    int nextX, nextY, nextAngle, debugCounter = 0;
+    int nextX, nextY, nextAngle;
 
-    private final int INIT_X = 110;
-    private final int INIT_Y = 110;
+    private final int INIT_X = 50;
+    private final int INIT_Y = 50;
 
     int dx, dy;
 
@@ -127,64 +127,66 @@ class OvalList {
 
     void resolveMutualCollision(Dimension memImageDim) {
 
-        int alpha, vx1, vy1, vx2, vy2, temp;
+        int alpha, vx1, vy1, vx2, vy2, temp, v1, v2, a1, a2;
         Oval oval1, oval2;
-        //boolean oval1free;
-
-        debugCounter++;
 
         for (int i1 = 0; i1 < list.size(); i1++) {
 
             oval1 = list.get(i1);
-
-            //oval1free = true;
 
             for (int i2 = i1 + 1; i2 < list.size(); i2++) {
 
                 oval2 = list.get(i2);
 
                 if (checkMutualCollision(oval1, oval2)) {
+                    
+                    System.out.print("i1=" + Integer.toString(i1) + " i2=" + Integer.toString(i2));
 
-                    //if ((oval1.getFree() == true) || (oval2.getFree() == true)) {
+                    alpha = (int) Math.toDegrees(Math.atan2(dy, dx));
 
-                        alpha = (int) Math.toDegrees(Math.atan2(dy, dx));
+                    a1 = oval1.getAngle() - alpha;
+                    a2 = oval2.getAngle() - alpha;
 
-                        oval1.setAngle(oval1.getAngle() - alpha);
-                        oval2.setAngle(oval2.getAngle() - alpha);
+                    oval1.setAngle(a1);
+                    oval2.setAngle(a2);
 
-                        vx1 = oval1.getVelocityX();
-                        vy1 = oval1.getVelocityY();
-                        vx2 = oval2.getVelocityX();
-                        vy2 = oval2.getVelocityY();
+                    vx1 = oval1.getVelocityX();
+                    vy1 = oval1.getVelocityY();
+                    vx2 = oval2.getVelocityX();
+                    vy2 = oval2.getVelocityY();
 
-                        temp = vx1;
-                        vx1 = vx2;
-                        vx2 = temp;
+                    temp = vx1;
+                    vx1 = vx2;
+                    vx2 = temp;
 
-                        //if (oval1.getFree() == true) {
-                            oval1.setVelocity((int) Math.sqrt(vx1 * vx1 + vy1 * vy1));
-                            if ((vx1 == 0) && (vy1 == 0)) {
-                                oval1.setAngle(alpha);
-                            } else {
-                                oval1.setAngle((int) Math.toDegrees(Math.atan2(vy1, vx1)) + alpha);
-                            }
-                        //}
-                        //if (oval2.getFree() == true) {
-                            oval2.setVelocity((int) Math.sqrt(vx2 * vx2 + vy2 * vy2));
-                            if ((vx2 == 0) && (vy2 == 0)) {
-                                oval2.setAngle(alpha);
-                            } else {
-                                oval2.setAngle((int) Math.toDegrees(Math.atan2(vy2, vx2)) + alpha);
-                            }
-                        //}
-                    //}
+                    v1 = (int) Math.sqrt(vx1 * vx1 + vy1 * vy1);
+                    v2 = (int) Math.sqrt(vx2 * vx2 + vy2 * vy2);
+                    
+                    System.out.print(" v1=" + Integer.toString(v1) + " v2=" + Integer.toString(v2));
 
-                    //oval1free = false;
-                    //oval2.setFree(false);
+                    if ((vx1 == 0) && (vy1 == 0)) {
+                        a1 = 0;
+                    } else {
+                        a1 = (int) Math.toDegrees(Math.atan2(vy1, vx1));
+                    }
+
+                    if ((vx2 == 0) && (vy2 == 0)) {
+                        a2 = 0;
+                    } else {
+                        a2 = (int) Math.toDegrees(Math.atan2(vy2, vx2));
+                    }
+                    
+                    a1 += alpha;
+                    a2 += alpha;
+                    
+                    System.out.println(" a1=" + Integer.toString(a1) + " a2=" + Integer.toString(a2));
+
+                    oval1.setVelocity(v1);
+                    oval2.setVelocity(v2);
+                    oval1.setAngle(a1);
+                    oval2.setAngle(a2);
                 }
             }
-
-            //oval1.setFree(oval1free);
         }
     }
 

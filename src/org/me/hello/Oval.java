@@ -57,12 +57,12 @@ class Oval {
         g.fillOval(getX() - getR(), y - getR(), getR() * 2, getR() * 2);
         //g.drawString("x=" + Integer.toString(x), getX(), y + shiftY++*10);
         //g.drawString("y=" + Integer.toString(y), getX(), y + shiftY++*10);
-        /*g.drawString("r=" + Integer.toString(r), getX(), y + shiftY++*10);
-        g.drawString("v=" + Integer.toString(velocity), getX(), y + shiftY++*10);
-        g.drawString("a=" + Integer.toString(angle), getX(), y + shiftY++*10);
-        g.drawString("velocityX=" + Integer.toString(velocityX), getX(), y + shiftY++*10);
-        g.drawString("velocityY=" + Integer.toString(velocityY), getX(), y + shiftY++*10);
-        g.drawString("free=" + Boolean.toString(free), getX(), y + shiftY++*10);*/
+        //g.drawString("r=" + Integer.toString(r), getX(), y + shiftY++*10);
+        //g.drawString("v=" + Integer.toString(velocity), getX(), y + shiftY++*10);
+        //g.drawString("a=" + Integer.toString(angle), getX(), y + shiftY++*10);
+        //g.drawString("velocityX=" + Integer.toString(velocityX), getX(), y + shiftY++*10);
+        //g.drawString("velocityY=" + Integer.toString(velocityY), getX(), y + shiftY++*10);
+        //g.drawString("free=" + Boolean.toString(free), getX(), y + shiftY++*10);
     }
 
     void setVelocity(int velocity) {
