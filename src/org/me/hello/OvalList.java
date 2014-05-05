@@ -20,7 +20,7 @@ class OvalList {
     private final int ANGLE_MIN = 0;
     private final int ANGLE_MAX = 360;
 
-    private final int FRICTION = 1;
+    private final int FRICTION = 10;
 
     private final int PRECISION = 10;
 

@@ -54,16 +54,15 @@ class Oval {
         int red = 0, green = 0, blue = 0, shiftY = 0;
 
         /*if (velocity / 10 <= 255) {
-            red = velocity / 10;
-        } else {
-            red = 0;
-            if (velocity / 100 <= 255) {
-                green = velocity / 100;
-            }
-        }
+         red = velocity / 10;
+         } else {
+         red = 0;
+         if (velocity / 100 <= 255) {
+         green = velocity / 100;
+         }
+         }
 
-        color = new Color(red, green, blue);*/
-
+         color = new Color(red, green, blue);*/
         g.setColor(color);
 
         g.fillOval(getX() - getR(), ydim - getR(), getR() * 2, getR() * 2);
@@ -138,27 +137,21 @@ class Oval {
 
     void applyFriction() {
 
-        if (friction > 0) {
-            if (velocity - friction - (r >> precision) > 0) {
-                velocity = velocity - friction - (r >> precision);
-            } else {
-                velocity = 0;
-            }
-        }
+        double k = (double) friction + (double) getR();
+
+        k = k / 5000 + 1;
+
+        velocity /= k;
 
         decompVelocity();
     }
 
     void moveForward(Dimension memImageDim) {
-
-        //resolveWallCollision(memImageDim);
         x += velocityX;
         y += velocityY;
     }
 
     void moveBack(Dimension memImageDim) {
-
-        //resolveWallCollision(memImageDim);
         x -= velocityX;
         y -= velocityY;
     }

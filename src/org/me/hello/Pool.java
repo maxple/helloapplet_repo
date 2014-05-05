@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author maxple
  */
-public class RndBallsAndMovableRect extends Applet implements Runnable {
+public class Pool extends Applet implements Runnable {
 
     Thread th;
 
@@ -103,7 +103,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
                 repaint();
                 Thread.sleep(10);
             } catch (InterruptedException ex) {
-                Logger.getLogger(RndBallsAndMovableRect.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Pool.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
