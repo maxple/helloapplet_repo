@@ -101,7 +101,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             try {
                 keysEventHandler();
                 repaint();
-                Thread.sleep(500);
+                Thread.sleep(10);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RndBallsAndMovableRect.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -135,9 +135,8 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             memImageGraphics.fillRect(0, 0, w, h);
 
             memImageGraphics.setColor(cfg);
-            
-            //ovalList.resolveMutualCollision(memImageDim);
 
+            //ovalList.resolveMutualCollision(memImageDim);
             ovalList.moveAll(memImageDim);
 
             ovalList.resolveMutualCollision(memImageDim);
@@ -184,7 +183,7 @@ public class RndBallsAndMovableRect extends Applet implements Runnable {
             forceRect.enlarge(1);
         }
         if (keysPressed.contains(KeyEvent.VK_ENTER)) {
-            quantity=3;
+            quantity++;
             quantityRect.enlarge(1);
         }
     }

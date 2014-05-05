@@ -39,20 +39,20 @@ class Oval {
     int getR() {
         return r >> precision;
     }
-    
+
     void setFree(boolean free) {
         this.free = free;
     }
-    
+
     boolean getFree() {
         return free;
     }
 
     void draw(Graphics g, Dimension memImageDim) {
-        
+
         int y = memImageDim.height - 1 - getY();
         int shiftY = 0;
-        
+
         g.setColor(color);
         g.fillOval(getX() - getR(), y - getR(), getR() * 2, getR() * 2);
         //g.drawString("x=" + Integer.toString(x), getX(), y + shiftY++*10);
@@ -109,16 +109,8 @@ class Oval {
 
         x += velocityX;
         y += velocityY;
-
-        if (friction > 0) {
-            if (velocity - friction - (r >> precision) > 0) {
-                velocity = velocity - friction - (r >> precision);
-            } else {
-                velocity = 0;
-            }
-        }
-
-        decompVelocity();
+        
+        applyFriction();
     }
 
     void resolveWallCollision(Dimension memImageDim) {
@@ -130,5 +122,34 @@ class Oval {
             angle = 360 - angle;
             decompVelocity();
         }
+    }
+
+    void applyFriction() {
+        
+        if (friction > 0) {
+            if (velocity - friction - (r >> precision) > 0) {
+                velocity = velocity - friction - (r >> precision);
+            } else {
+                velocity = 0;
+            }
+        }
+
+        decompVelocity();
+    }
+
+    void moveForward(Dimension memImageDim) {
+
+        //resolveWallCollision(memImageDim);
+        
+        x += velocityX;
+        y += velocityY;
+    }
+
+    void moveBack(Dimension memImageDim) {
+        
+        //resolveWallCollision(memImageDim);
+
+        x -= velocityX;
+        y -= velocityY;
     }
 }

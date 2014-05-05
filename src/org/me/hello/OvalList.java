@@ -12,15 +12,15 @@ import java.util.Random;
  */
 class OvalList {
 
-    private final int R_MIN = 20;
-    private final int R_MAX = 20;
+    private final int R_MIN = 10;
+    private final int R_MAX = 10;
 
     private final int VELOCITY = 1;
 
     private final int ANGLE_MIN = 0;
     private final int ANGLE_MAX = 360;
 
-    private final int FRICTION = 0;
+    private final int FRICTION = 1;
 
     private final int PRECISION = 10;
 
@@ -84,14 +84,14 @@ class OvalList {
     void startAll(int velocity) {
 
         for (int i1 = 0; i1 < list.size(); i1++) {
-            if (i1 % 2 == 0) {
-                list.get(i1).setVelocity(velocity);
-            } else {
-                list.get(i1).setVelocity(0);
-            }
+            /*if (i1 % 2 == 0) {
+             list.get(i1).setVelocity(velocity);
+             } else {
+             list.get(i1).setVelocity(0);
+             }*/
 
-            //list.get(i1).setVelocity(velocity);
-            //list.get(i1).setAngle(getNextRnd(ANGLE_MIN, ANGLE_MAX));
+            list.get(i1).setVelocity(velocity);
+            list.get(i1).setAngle(getNextRnd(ANGLE_MIN, ANGLE_MAX));
         }
     }
 
@@ -138,10 +138,9 @@ class OvalList {
 
                 oval2 = list.get(i2);
 
-                if (checkMutualCollision(oval1, oval2)) {
-                    
-                    System.out.print("i1=" + Integer.toString(i1) + " i2=" + Integer.toString(i2));
+                if (checkMutualCollision(memImageDim, oval1, oval2)) {
 
+                    //System.out.print("i1=" + Integer.toString(i1) + " i2=" + Integer.toString(i2));
                     alpha = (int) Math.toDegrees(Math.atan2(dy, dx));
 
                     a1 = oval1.getAngle() - alpha;
@@ -161,9 +160,8 @@ class OvalList {
 
                     v1 = (int) Math.sqrt(vx1 * vx1 + vy1 * vy1);
                     v2 = (int) Math.sqrt(vx2 * vx2 + vy2 * vy2);
-                    
-                    System.out.print(" v1=" + Integer.toString(v1) + " v2=" + Integer.toString(v2));
 
+                    //System.out.print(" v1=" + Integer.toString(v1) + " v2=" + Integer.toString(v2));
                     if ((vx1 == 0) && (vy1 == 0)) {
                         a1 = 0;
                     } else {
@@ -175,12 +173,11 @@ class OvalList {
                     } else {
                         a2 = (int) Math.toDegrees(Math.atan2(vy2, vx2));
                     }
-                    
+
                     a1 += alpha;
                     a2 += alpha;
-                    
-                    System.out.println(" a1=" + Integer.toString(a1) + " a2=" + Integer.toString(a2));
 
+                    //System.out.println(" a1=" + Integer.toString(a1) + " a2=" + Integer.toString(a2));
                     oval1.setVelocity(v1);
                     oval2.setVelocity(v2);
                     oval1.setAngle(a1);
@@ -190,19 +187,52 @@ class OvalList {
         }
     }
 
-    boolean checkMutualCollision(Oval oval1, Oval oval2) {
+    boolean checkMutualCollision(Dimension memImageDim, Oval oval1, Oval oval2) {
 
         int dr, sdr, sdx, sdy;
+        boolean before, now, after;
 
-        dr = oval2.getR() + oval1.getR() + oval2.getVelocity() + oval1.getVelocity();
+        dr = oval2.getR() + oval1.getR();
         sdr = dr * dr;
+
+        oval1.moveBack(memImageDim);
+        oval2.moveBack(memImageDim);
 
         dx = oval2.getX() - oval1.getX();
         sdx = dx * dx;
 
         dy = oval2.getY() - oval1.getY();
         sdy = dy * dy;
+        
+        before = sdx + sdy < sdr;
+        
+        oval1.moveForward(memImageDim);
+        oval2.moveForward(memImageDim);
 
-        return (sdx + sdy < sdr);
+        dx = oval2.getX() - oval1.getX();
+        sdx = dx * dx;
+
+        dy = oval2.getY() - oval1.getY();
+        sdy = dy * dy;
+        
+        now = sdx + sdy < sdr;
+        
+        oval1.moveForward(memImageDim);
+        oval2.moveForward(memImageDim);
+
+        dx = oval2.getX() - oval1.getX();
+        sdx = dx * dx;
+
+        dy = oval2.getY() - oval1.getY();
+        sdy = dy * dy;
+        
+        after = sdx + sdy < sdr;
+        
+        oval1.moveBack(memImageDim);
+        oval2.moveBack(memImageDim);
+        
+        if (before == false && now == true && after == true) return true;
+        
+        return false;
     }
 }
