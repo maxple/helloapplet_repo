@@ -5,26 +5,12 @@
  */
 package org.me.hello;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 /**
  *
  * @author pletnyov
  */
 public class NewJApplet extends javax.swing.JApplet {
-    
-    Surface s;
-    
-    /*@Override
-    public void start() {
-        try {
-            
-        } catch (Exception e) {
 
-        }
-    }*/
-    
     /**
      * Initializes the applet NewJApplet
      */
@@ -56,11 +42,10 @@ public class NewJApplet extends javax.swing.JApplet {
         /* Create and display the applet */
         try {
             java.awt.EventQueue.invokeAndWait(new Runnable() {
+                @Override
                 public void run() {
                     initComponents();
-                    s = new Surface();
-                    jPanel1.add(s);
-                    s.setVisible(true);
+                    new Thread(new Animator(jPanel1)).start();
                 }
             });
         } catch (Exception ex) {
@@ -77,7 +62,7 @@ public class NewJApplet extends javax.swing.JApplet {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new Surface();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -127,4 +112,26 @@ public class NewJApplet extends javax.swing.JApplet {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+}
+
+class Animator implements Runnable {
+
+    javax.swing.JPanel jPanel1;
+
+    public Animator(javax.swing.JPanel jPanel1) {
+        this.jPanel1 = jPanel1;
+    }
+
+    @Override
+    public void run() {
+
+        while (true) {
+            try {
+                //keysEventHandler();
+                jPanel1.repaint();
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+            }
+        }
+    }
 }
