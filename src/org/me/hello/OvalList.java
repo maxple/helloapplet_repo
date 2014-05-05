@@ -12,8 +12,8 @@ import java.util.Random;
  */
 class OvalList {
 
-    private final int R_MIN = 5;
-    private final int R_MAX = 30;
+    private final int R_MIN = 20;
+    private final int R_MAX = 50;
 
     private final int VELOCITY = 1;
 
@@ -46,7 +46,7 @@ class OvalList {
 
         if (saturation == false) {
             Oval oval = new Oval(nextX, nextY,
-                getNextRnd(R_MIN, R_MAX), new Color(rnd.nextInt()), FRICTION, PRECISION, number);
+                getNextRnd(R_MIN, R_MAX), new Color(getNextRnd(0, 200), getNextRnd(0, 200), getNextRnd(0, 200)), FRICTION, PRECISION, number);
 
             oval.setAngle(nextAngle);
             list.add(oval);

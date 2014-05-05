@@ -2,6 +2,8 @@ package org.me.hello;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 
 class Oval {
@@ -50,8 +52,17 @@ class Oval {
 
     void draw(Graphics g, Dimension memImageDim) {
 
-        int ydim = memImageDim.height - 1 - getY();
+        String s = Integer.toString(number);
+        int ydim, xs, ys;
         //int shiftY = 0;
+        
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
+        
+        ydim = memImageDim.height - 1 - getY();
+        
+        FontMetrics fm = g.getFontMetrics(g.getFont());
+        xs = getX() - fm.stringWidth(s) / 2;
+        ys = ydim + fm.getHeight() / 2 - 3;
 
         g.setColor(color);
 
@@ -59,7 +70,7 @@ class Oval {
         
         g.setColor(Color.white);
         
-        g.drawString(Integer.toString(number), getX(), ydim);
+        g.drawString(s, xs, ys);
         
         //g.drawString("x=" + Integer.toString(x), getX(), ydim + shiftY++*10);
         //g.drawString("ydim=" + Integer.toString(y), getX(), ydim + shiftY++*10);

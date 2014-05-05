@@ -91,7 +91,11 @@ public class Pool extends Applet implements Runnable {
 
     @Override
     public void start() {
-        th.start();
+        try {
+            th.start();
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -178,7 +182,9 @@ public class Pool extends Applet implements Runnable {
             rect.moveRight(memImageDim);
         }
         if (keysPressed.contains(KeyEvent.VK_SPACE)) {
-            if (force < 255*100) force += 100;
+            if (force < 255 * 100) {
+                force += 100;
+            }
             forceRect.enlarge(1);
         }
         if (keysPressed.contains(KeyEvent.VK_ENTER)) {
